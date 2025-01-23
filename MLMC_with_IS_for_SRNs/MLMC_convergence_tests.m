@@ -12,7 +12,7 @@ addpath('..');
 N0   = 10000;    % initial samples on coarse levels
 Lmin = 2;      % minimum refinement level
 Lmax = 10;     % maximum refinement level
-
+Threshold = 7;
 % Request the user to enter the example of interest and return an error if
 % the example in not in example.m
 
@@ -54,7 +54,7 @@ end
 
 %% writing the outputs in .txt file
 
-filename = ['Example_x7_' num2str(exp) 'IS'];
+filename = ['Example_x' num2str(Threshold) '_' num2str(exp) 'IS'];
   fp = fopen([filename '.txt'],'w');
   mlmc_test(@mlmc_tau_leap_l, N,L, N0,Eps,Lmin,Lmax, fp, exp,delta);
   fclose(fp);
@@ -94,7 +94,7 @@ filename = ['Example_x7_' num2str(exp) 'IS'];
 %
 %% now do 100 MLMC calcs in parallel
 %
-  filename = ['mlmc_tau_leap_l_x7_' num2str(exp) '_100_IS'];
+  filename = ['mlmc_tau_leap_l_x' num2str(Threshold) '_' num2str(exp) '_100_IS'];
   fp = fopen([filename '.txt'],'w');
   mlmc_test_100(@mlmc_tau_leap_l, val, N0,Eps,Lmin,Lmax, fp, exp,delta);
 
@@ -150,22 +150,22 @@ for N1 = 1:10000:N
   if exp==1
     if l==0
     Pf = single_estimator(hf,N2,1,1,tend);
-    Pf = 1*(Pf>7);
+    Pf = 1*(Pf>Threshold);
     elseif l>0
-    [Pf,dP]= coupled_estimator_is(hc,1,1,N2,tend,delta);
+    [Pf,dP]= coupled_estimator_is(hc,1,1,N2,tend,delta,Threshold);
     end
        
   elseif  exp==2
     if l==0
     Pf = single_estimator(hf,N2,exp,1,tend);
     elseif l>0
-    [Pf,dP]= coupled_estimator_is(hc,exp,1,N2,tend,delta);
+    [Pf,dP]= coupled_estimator_is(hc,exp,1,N2,tend,delta,Threshold);
     end
   elseif  exp==4
     if l==0
     Pf = single_estimator(hf,N2,exp,3,tend);
     elseif l>0
-    [Pf,dP]= coupled_estimator_is(hc,exp,3,N2,tend,delta);
+    [Pf,dP]= coupled_estimator_is(hc,exp,3,N2,tend,delta,Threshold);
     end
   end
         

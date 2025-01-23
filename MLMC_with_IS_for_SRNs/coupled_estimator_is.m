@@ -1,4 +1,4 @@
-function [m1,md,kurt]= coupled_estimator_is(h1,exp_number,target,M,tend,delta)
+function [m1,md,kurt]= coupled_estimator_is(h1,exp_number,target,M,tend,delta,Threshold)
 
 % this code computes  the mean , the variance of MLMC estimator with importance sampling
 % sampling
@@ -30,14 +30,14 @@ data = zeros([2*S,M]);
 %tau-leaping process with the final step-size.  The second S components
 %are for the tau-leaping process with the cruder step size.
 
-[data(:,1:M),lik,kurt,count] =coupled_explicit_is(h1,tend,M,exp_number,target,delta);
+[data(:,1:M),lik,kurt,count] =coupled_explicit_is(h1,tend,M,exp_number,target,delta,Threshold);
 
 %The difference in the processes.  You could also evaluate f(Z_1) - f(Z_2),
 %if you are not simply interested in the abundance of a particular
 %species. The difference, md, and the mean, m1, are multiplied by the 
 %likelihood factor (lik)
-data(target,1:M) = 1*(data(target,1:M)>7);
-data(S+target,1:M) = 1*(data(S+target,1:M)>7);
+data(target,1:M) = 1*(data(target,1:M)>Threshold);
+data(S+target,1:M) = 1*(data(S+target,1:M)>Threshold);
 md = (data(target,1:M)-data(S+target,1:M)).*lik;
 
 m1 = data(target,1:M).*lik;
