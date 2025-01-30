@@ -37,7 +37,7 @@
 %         cost = cost of N samples
 
 function [P, Nl, Cl] = mlmc(mlmc_l,N0,eps,Lmin,Lmax, ...
-                            alpha0,beta0,gamma0, varargin)
+                            alpha0,beta0,gamma0,Threshold, varargin)
 
 %
 % check input parameters
@@ -77,7 +77,7 @@ function [P, Nl, Cl] = mlmc(mlmc_l,N0,eps,Lmin,Lmax, ...
 %
     for l=0:L
       if dNl(l+1) > 0
-        [sums cost] = mlmc_l(l,dNl(l+1), varargin{:});
+        [sums cost] = mlmc_l(l,dNl(l+1),Threshold, varargin{:});
         Nl(l+1)     = Nl(l+1)     + dNl(l+1);
         suml(1,l+1) = suml(1,l+1) + sums(1);
         suml(2,l+1) = suml(2,l+1) + sums(2);

@@ -1,4 +1,4 @@
-function [x,lik,kurt,count] =coupled_explicit_is(h1,tend,M,exp_number,target,delta)
+function [x,lik,kurt,count] =coupled_explicit_is(h1,tend,M,exp_number,target,delta,Threshold)
 
  % This function couple and simulates two consecutive levels of M paths 
  % with coarse time step h1 using explicit tau leap method with IS
@@ -84,7 +84,7 @@ for i=1:maxi-1
      elseif  exp_number==2
             J1_cond=(q~=1) && (q~=4);
       end
-    if (r_x(q,j)-r_z(q,j)==0) || ((1*(x(target,j)>Threshold)-1*(x(S+target,j)>Threshold))~=0) || J1_cond 
+    if (r_x(q,j)-r_z(q,j)==0) || (1*(x(target,j)>Threshold)-1*(x(S+target,j)>Threshold)~=0) || J1_cond 
 
     if (min(r_x(q,j),r_z(q,j))==r_z(q,j))
         lambda(ell,j) = min(r_x(q,j),r_z(q,j))*(h1/2);
@@ -149,7 +149,7 @@ for i=1:maxi-1
      elseif  exp_number==2
             J1_cond=(q~=1) && (q~=4);
       end
-    if (r_x(q,j)-r_z(q,j)==0) || (1*(x(target,j)>Threshold)-1*(x(S+target,j)>Threshold))~=0) || J1_cond 
+    if (r_x(q,j)-r_z(q,j)==0) || (1*(x(target,j)>Threshold)-1*(x(S+target,j)>Threshold)~=0) || J1_cond 
 
 
     if (min(r_x(q,j),r_z(q,j))==r_z(q,j))

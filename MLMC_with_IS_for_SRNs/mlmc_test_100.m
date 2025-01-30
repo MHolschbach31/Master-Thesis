@@ -19,7 +19,7 @@
 % varargin = optional additional user variables to be passed to mlmc_l
 %
 
-function mlmc_test_100(mlmc_l, val, N0,Eps,Lmin,Lmax, fp, varargin)
+function mlmc_test_100(mlmc_l, val, N0,Eps,Lmin,Lmax,Threshold, fp, varargin)
 
 PRINTF2(fp,'\n');
 PRINTF2(fp,'**********************************************************\n');
@@ -45,7 +45,7 @@ for i = 1:length(Eps)
     RandStream.setGlobalStream( ...
     RandStream.create('mrg32k3a','NumStreams',100,'StreamIndices',j));
 
-    P100(j) = mlmc(mlmc_l,N0,Eps(i),Lmin,Lmax, 0,0,0, varargin{:});
+    P100(j) = mlmc(mlmc_l,N0,Eps(i),Lmin,Lmax, 0,0,0, varargin{:},Threshold);
   end
   for j=1:5:100
     PRINTF2(fp,' %.5e ',P100(j:j+4));

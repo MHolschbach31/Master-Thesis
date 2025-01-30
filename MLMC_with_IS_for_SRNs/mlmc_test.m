@@ -27,7 +27,7 @@
 % varargin = optional additional user variables to be passed to mlmc_l
 %
 
-function mlmc_test(mlmc_l,N,L, N0,Eps,Lmin,Lmax, fp, varargin)
+function mlmc_test(mlmc_l,N,L, N0,Eps,Lmin,Lmax,Threshold, fp, varargin)
 
 %
 % first, convergence tests
@@ -65,7 +65,7 @@ for l = 0:L
     RandStream.setGlobalStream( ...
     RandStream.create('mrg32k3a','NumStreams',100,'StreamIndices',j));
 
-    [sums_j cst_j] = mlmc_l(l,N/100, varargin{:});
+    [sums_j cst_j] = mlmc_l(l,N/100,Threshold, varargin{:});
     sums = sums + sums_j/N;
     cst  = cst  + cst_j/N;
   end
@@ -155,7 +155,7 @@ theta = 0.25;
 
 for i = 1:length(Eps)
   eps = Eps(i);
-  [P, Nl, Cl] = mlmc(mlmc_l,N0,eps,Lmin,Lmax, alpha,beta,gamma, ...
+  [P, Nl, Cl] = mlmc(mlmc_l,N0,eps,Lmin,Lmax, alpha,beta,gamma,Threshold, ...
                      varargin{:});
   mlmc_cost = sum(Nl.*Cl);
   std_cost  = var2(min(end,length(Nl)))*Cl(end) / ((1.0-theta)*eps^2);

@@ -54,9 +54,9 @@ end
 
 %% writing the outputs in .txt file
 
-filename = ['Example_x' num2str(Threshold) '_' num2str(exp) 'IS'];
+filename = ['Example_x_' num2str(Threshold) '_' num2str(exp) 'IS'];
   fp = fopen([filename '.txt'],'w');
-  mlmc_test(@mlmc_tau_leap_l, N,L, N0,Eps,Lmin,Lmax, fp, exp,delta);
+  mlmc_test(@mlmc_tau_leap_l, N,L, N0,Eps,Lmin,Lmax,Threshold, fp, exp,delta);
   fclose(fp);
 
 %% print  reference value
@@ -94,9 +94,9 @@ filename = ['Example_x' num2str(Threshold) '_' num2str(exp) 'IS'];
 %
 %% now do 100 MLMC calcs in parallel
 %
-  filename = ['mlmc_tau_leap_l_x' num2str(Threshold) '_' num2str(exp) '_100_IS'];
+  filename = ['mlmc_tau_leap_l_x_' num2str(Threshold) '_' num2str(exp) '_100_IS'];
   fp = fopen([filename '.txt'],'w');
-  mlmc_test_100(@mlmc_tau_leap_l, val, N0,Eps,Lmin,Lmax, fp, exp,delta);
+  mlmc_test_100(@mlmc_tau_leap_l, val, N0,Eps,Lmin,Lmax,Threshold, fp, exp,delta);
 
   fclose(fp);
 
@@ -118,7 +118,7 @@ filename = ['Example_x' num2str(Threshold) '_' num2str(exp) 'IS'];
 %            convergence rates for weak and strong error and computing the
 %             kurtosis
 
-function [sums, cost] = mlmc_tau_leap_l(l,N, exp,delta)
+function [sums, cost] = mlmc_tau_leap_l(l,N,Threshold, exp,delta)
 % defining the final time (tend), Coarsest level, hierarchy of number of time steps and
 % step sizes for coarse and fine level, for each example
 if exp==1
